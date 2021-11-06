@@ -1,24 +1,21 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=America/New_York
 
 RUN apt-get update && apt-get install -y \
     cmake \
+    libjpeg8-dev \
     g++ \
     wget \
     unzip \
-    psmisc \
     git \
-    python-virtualenv \
+    python2 \
     virtualenv \
-    python-dev \
-    libffi-dev \
-    build-essential \
-    tzdata \
-    zlib1g-dev \
-    libjpeg-dev
-
+    python3-dev \
+    python3-virtualenv \
+    tzdata
+    
 EXPOSE 5000
 
 ARG tag=master
@@ -53,8 +50,7 @@ https://github.com/marian42/octoprint-preheat/archive/master.zip \
 https://github.com/OllisGit/OctoPrint-FilamentManager/releases/latest/download/master.zip \
 https://github.com/OllisGit/OctoPrint-DisplayLayerProgress/releases/latest/download/master.zip \
 https://github.com/jneilliii/OctoPrint-UltimakerFormatPackage/archive/master.zip \
-https://github.com/jneilliii/OctoPrint-ConsolidateTempControl/archive/master.zip \
-https://github.com/LazeMSS/OctoPrint-UICustomizer/archive/main.zip
+https://github.com/jneilliii/OctoPrint-ConsolidateTempControl/archive/master.zip
 
 VOLUME /home/octoprint/.octoprint
 
@@ -74,6 +70,9 @@ RUN ln -s /bin/true /bin/systemctl
 USER octoprint
 
 WORKDIR /home/octoprint
+
+# Update the install script for Ubuntu 20
+RUN sed -i 's/python-virtualenv //' ./klipper/scripts/install-ubuntu-18.04.sh
 
 RUN git clone https://github.com/KevinOConnor/klipper
 
