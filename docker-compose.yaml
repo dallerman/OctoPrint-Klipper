@@ -1,14 +1,14 @@
 version: '3'
 services:
   octoprint-klipper:
-    image: "seanauff/octoprint-klipper:arm"
-    container_name: "octoprint-klipper"
+    image: "dallerman/OctoPrint-Klipper-Unraid:amd64"
+    container_name: "OctoPrint-Klipper-Unraid"
     devices:
       - "/dev/ttyUSB0:/dev/ttyUSB0"
     ports:
       - "5000:5000"
     volumes:
-      - "/home/docker/octoprint-klipper:/home/octoprint/.octoprint"
+      - "/mnt/user/appdata/Octoprint:/home/octoprint/.octoprint"
     environment:
-      TZ: America/New_York
+      TZ: "Europe/Berlin"
     restart: unless-stopped
